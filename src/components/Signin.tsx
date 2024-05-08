@@ -1,9 +1,28 @@
+import { createUser } from "../api/users";
 
 export default function Signin() {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      name: { value: string };
+      email: { value: string };
+      password: { value: string };
+    };
+    
+    const name = target.name.value;
+    const email = target.email.value;
+    const password = target.password.value;
+
+
+    const user = await createUser(name, email, password);
+    console.log(user);
+    console.log(user.created_at.toISOString())
+  };
+
   return (
-      <form action="/users" method="post">
-        <label htmlFor="username">Username:</label><br />
-        <input type="text" id="username" name="username" /><br />
+      <form onSubmit={onSubmit}>
+        <label htmlFor="name">Name:</label><br />
+        <input type="text" id="name" name="name" /><br />
         <label htmlFor="email">Email:</label><br />
         <input type="email" id="email" name="email" /><br />
         <label htmlFor="password">Password:</label><br />
